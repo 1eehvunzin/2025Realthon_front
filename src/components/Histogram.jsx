@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function Histogram({ courseId }) {
   const [histData, setHistData] = useState(null);
+  const [myCumulativeScore, setMyCumulativeScore] = useState(null);
 
   useEffect(() => {
     if (!courseId) return;
@@ -26,6 +27,9 @@ export default function Histogram({ courseId }) {
         }));
 
         setHistData(arr);
+
+        // 유저의 누적 점수 정보 저장
+        setMyCumulativeScore(json.my_cumulative_score);
       } catch (err) {
         console.error("fetch error:", err);
       }
