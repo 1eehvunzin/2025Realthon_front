@@ -10,6 +10,7 @@ export default function CourseDetail() {
   const [items, setitems] = useState([]);
   const [grade, setGrade] = useState("A");
   const [courseAdvice, setCourseAdvice] = useState(null);
+  const [refresh, setrefresh] = useState(0);
 
   const handleChangeGrade = async (e) => {
     const newGrade = e.target.value;
@@ -125,6 +126,7 @@ export default function CourseDetail() {
           value={grade}
           onChange={(e) => {
             handleChangeGrade(e);
+            setrefresh(refresh + 1);
           }}
           style={{
             padding: "8px 12px",
@@ -146,6 +148,17 @@ export default function CourseDetail() {
           : "강의 정보를 불러오는 중..."}
       </h2>
       <Histogram courseId={courseId} />
+      {courseAdvice && (
+        <h3
+          style={{
+            margin: "20px 0 0 0",
+            textAlign: "space-between",
+          }}
+        >
+          과제 난이도: {courseAdvice.assignment_difficulty} • 시험 난이도:{" "}
+          {courseAdvice.exam_difficulty}
+        </h3>
+      )}
       <div
         style={{
           backgroundColor: "#FAFAFC",
@@ -157,30 +170,19 @@ export default function CourseDetail() {
           borderRadius: "16px",
           width: "90%",
           margin: "12px 0px",
-          minHeight: "90px",
-          maxHeight: "150px", // 너무 길면
+          minHeight: "150px",
+          maxHeight: "200px", // 너무 길면
           overflowY: "auto", // 스크롤 되도록
           gap: "8px",
         }}
       >
         {courseAdvice ? (
           <>
-            <h4 style={{ margin: 0 }}>요약</h4>
-            <p style={{ margin: 0 }}>{courseAdvice.summary}</p>
+            <h2 style={{ margin: 0 }}>요약</h2>
+            <h3 style={{ margin: 0 }}>{courseAdvice.summary}</h3>
 
-            <h4 style={{ margin: "8px 0 0 0" }}>세부 조언</h4>
-            <p style={{ margin: 0 }}>{courseAdvice.advice}</p>
-
-            <p
-              style={{
-                margin: "8px 0 0 0",
-                fontSize: "12px",
-                color: "#7D8A95",
-              }}
-            >
-              과제 난이도: {courseAdvice.assignment_difficulty} • 시험 난이도:{" "}
-              {courseAdvice.exam_difficulty}
-            </p>
+            <h2 style={{ margin: "8px 0 0 0" }}>세부 조언</h2>
+            <h3 style={{ margin: 0 }}>{courseAdvice.advice}</h3>
           </>
         ) : (
           <span>이 과목에 대한 조언을 불러오는 중...</span>
@@ -198,16 +200,23 @@ export default function CourseDetail() {
           margin: "12px 0px",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <h4>기말고사</h4>
-          <h4 style={{ color: "#C0D4FB" }}>시험</h4>
-          <div
-            style={{ display: "flex", flexDirection: "row", marginTop: "16px" }}
-          >
-            <h4>중요도 ⭐ : 5.0</h4>
+        <button>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <h4>기말고사</h4>
+            <h4 style={{ color: "#C0D4FB" }}>시험</h4>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "16px",
+              }}
+            >
+              <h4>중요도 ⭐ : 5.0</h4>
+            </div>
           </div>
-        </div>
+        </button>
       </div>
+
       <button style={{ width: "100%" }}>
         <div
           style={{
