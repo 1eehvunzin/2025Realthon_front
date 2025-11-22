@@ -95,12 +95,9 @@ export default function Profile() {
             {error}
         </div>)}
 
-        {loading && !profile ? (
-            <div style={{textAlign: "center", color: "#7D8A95", padding: "24px"}}>
+        {loading && !profile ? (<div style={{textAlign: "center", color: "#7D8A95", padding: "24px"}}>
                 프로필을 불러오는 중...
-            </div>
-        ) : profile ? (
-            <>
+            </div>) : profile ? (<>
                 <div
                     style={{
                         backgroundColor: "#FAFAFC",
@@ -150,9 +147,7 @@ export default function Profile() {
                         </button>
                     </div>
                 </form>
-            </>
-        ) : (
-            <div
+            </>) : (<div
                 style={{
                     textAlign: "center",
                     color: "#7D8A95",
@@ -162,7 +157,6 @@ export default function Profile() {
                 }}
             >
                 프로필을 불러올 수 없습니다.
-            </div>
-        )}
+            </div>)}
     </div>);
 }
