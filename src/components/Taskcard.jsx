@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Time from "../assets/time.png";
-export default function Taskcard({ title, type, rate }) {
+export default function Taskcard({ item, type, rate }) {
   //const [coursename, setcoursename] = useState("현대암호기초");
   //const [prof, setprof] = useState("김종길");
   //const [coursetime, setcoursetime] = useState("화4 목3");
@@ -17,7 +17,7 @@ export default function Taskcard({ title, type, rate }) {
       }}
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h4>{title}</h4>
+        <h4>{item.name}</h4>
         <h4 style={{ color: "#C0D4FB" }}>{type}</h4>
         <div
           style={{ display: "flex", flexDirection: "row", marginTop: "16px" }}

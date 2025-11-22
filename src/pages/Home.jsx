@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://134.185.97.247:8000/courses");
+        const res = await fetch("https://realthon.betatester772.dev/courses");
         const json = await res.json();
         setCourses(json);
       } catch (err) {

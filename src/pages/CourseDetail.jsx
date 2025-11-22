@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Taskcard from "../components/Taskcard";
 import Histogram from "../components/histogram";
 
 export default function CourseDetail() {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [course, setcourse] = useState(null);
   const [items, setitems] = useState([]);
   const [grade, setGrade] = useState("A");
@@ -12,7 +13,7 @@ export default function CourseDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://134.185.97.247:8000/courses");
+        const res = await fetch("https://realthon.betatester772.dev/courses");
         const json = await res.json();
 
         const found = json.find((c) => String(c.id) === String(courseId));
@@ -29,7 +30,9 @@ export default function CourseDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://134.185.97.247:8000/evaluation-items");
+        const res = await fetch(
+          "https://realthon.betatester772.dev/evaluation-items"
+        );
         const json = await res.json();
         setitems(json);
       } catch (err) {
@@ -39,6 +42,10 @@ export default function CourseDetail() {
 
     fetchData();
   }, []);
+
+  const handleClickItem = (itemId) => {
+    navigate(`/courses/${courseId}/${itemId}`);
+  };
 
   const upcomingItems = items
     .filter((item) => String(item.course_id) === String(courseId))
@@ -99,12 +106,17 @@ export default function CourseDetail() {
       </div>
       <h2 style={{ margin: "24px 0 12px 0" }}>예정된 과제 • 시험</h2>
       {upcomingItems.map((item) => (
-        <Taskcard
+        <button
           key={item.id}
-          title={item.name}
-          type={item.name.includes("과제") ? "과제" : "시험"}
-          rate="중요도 ⭐ : 5.0"
-        />
+          onClick={() => handleClickItem(item.id)}
+          style={{ width: "100%", textAlign: "left" }}
+        >
+          <Taskcard
+            item={item}
+            type={item.name.includes("과제") ? "과제" : "시험"}
+            rate="중요도 ⭐ : 5.0"
+          />
+        </button>
       ))}
       <button style={{ width: "100%" }}>
         <div
@@ -124,12 +136,17 @@ export default function CourseDetail() {
       </button>
       <h2 style={{ margin: "24px 0 12px 0" }}>지나간 과제 • 시험</h2>
       {pastItems.map((item) => (
-        <Taskcard
+        <button
           key={item.id}
-          title={item.name}
-          type={item.name.includes("과제") ? "과제" : "시험"}
-          rate={`나의 점수: ${item.my_score}`}
-        />
+          onClick={() => handleClickItem(item.id)}
+          style={{ width: "100%", textAlign: "left" }}
+        >
+          <Taskcard
+            item={item}
+            type={item.name.includes("과제") ? "과제" : "시험"}
+            rate={`나의 점수: ${item.my_score}`}
+          />
+        </button>
       ))}
       <button style={{ width: "100%" }}>
         <div
