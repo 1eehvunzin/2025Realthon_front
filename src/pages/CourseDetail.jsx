@@ -9,6 +9,7 @@ export default function CourseDetail() {
   const [course, setcourse] = useState(null);
   const [items, setitems] = useState([]);
   const [grade, setGrade] = useState("A");
+  const [courseAdvice, setCourseAdvice] = useState(null);
 
   const handleChangeGrade = async (e) => {
     const newGrade = e.target.value;
@@ -64,6 +65,31 @@ export default function CourseDetail() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchAdvice = async () => {
+      try {
+        const params = new URLSearchParams();
+        // objective_grade는 optional이지만 우리가 갖고 있으니 같이 보내기
+        params.append("objective_grade", grade);
+
+        const res = await fetch(
+          `https://realthon.betatester772.dev/courses/${courseId}/advice?${params.toString()}`,
+          {
+            method: "GET",
+          }
+        );
+        const json = await res.json();
+        setCourseAdvice(json);
+      } catch (err) {
+        console.error("fetch advice error:", err);
+      }
+    };
+
+    if (courseId) {
+      fetchAdvice();
+    }
+  }, [courseId, grade]);
 
   const handleClickItem = (item) => {
     if (item.is_submitted) {
@@ -127,12 +153,38 @@ export default function CourseDetail() {
           color: "#000000",
           padding: "16px",
           display: "flex",
+          flexDirection: "column",
           borderRadius: "16px",
           width: "90%",
           margin: "12px 0px",
+          minHeight: "90px",
+          maxHeight: "150px", // 너무 길면
+          overflowY: "auto", // 스크롤 되도록
+          gap: "8px",
         }}
       >
-        예시 텍스트 입니다
+        {courseAdvice ? (
+          <>
+            <h4 style={{ margin: 0 }}>요약</h4>
+            <p style={{ margin: 0 }}>{courseAdvice.summary}</p>
+
+            <h4 style={{ margin: "8px 0 0 0" }}>세부 조언</h4>
+            <p style={{ margin: 0 }}>{courseAdvice.advice}</p>
+
+            <p
+              style={{
+                margin: "8px 0 0 0",
+                fontSize: "12px",
+                color: "#7D8A95",
+              }}
+            >
+              과제 난이도: {courseAdvice.assignment_difficulty} • 시험 난이도:{" "}
+              {courseAdvice.exam_difficulty}
+            </p>
+          </>
+        ) : (
+          <span>이 과목에 대한 조언을 불러오는 중...</span>
+        )}
       </div>
       <h2 style={{ margin: "24px 0 12px 0" }}>예정된 과제 • 시험</h2>
       {upcomingItems.map((item) => (
