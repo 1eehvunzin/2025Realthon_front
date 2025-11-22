@@ -10,6 +10,7 @@ export default function CourseDetail() {
   const [items, setitems] = useState([]);
   const [grade, setGrade] = useState("A");
   const [courseAdvice, setCourseAdvice] = useState(null);
+  const [refresh, setrefresh] = useState(0);
 
   const handleChangeGrade = async (e) => {
     const newGrade = e.target.value;
@@ -125,6 +126,7 @@ export default function CourseDetail() {
           value={grade}
           onChange={(e) => {
             handleChangeGrade(e);
+            setrefresh(refresh + 1);
           }}
           style={{
             padding: "8px 12px",
