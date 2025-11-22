@@ -4,10 +4,15 @@ import Search from "../assets/Search.png";
 import Coursecard from "../components/Coursecard";
 import Profile from "../assets/profile.png";
 import { useNavigate } from "react-router-dom";
+import { courses } from "../data/courses";
 
 export default function Home() {
   const [user, setuser] = useState("김리얼");
   const navigate = useNavigate();
+
+  const handleClickCourse = (courseId) => {
+    navigate(`/courses/${courseId}`);
+  };
 
   return (
     <div className="page">
@@ -23,7 +28,7 @@ export default function Home() {
           <h3>{user} 님</h3>
         </div>
         <div>
-          <button>
+          <button style={{ marginRight: "16px" }}>
             <img src={Search} alt="검색" />
           </button>
           <button onClick={() => navigate("/profile")}>
@@ -51,12 +56,15 @@ export default function Home() {
         예시 텍스트 입니다
       </div>
       <h2 style={{ margin: "24px 0 12px 0" }}>수강 관리 중인 과목</h2>
-      <Coursecard />
-      <Coursecard />
-      <Coursecard />
-      <Coursecard />
-      <Coursecard />
-      <Coursecard />
+      {courses.map((course) => (
+        <button
+          key={course.id}
+          onClick={() => handleClickCourse(course.id)}
+          style={{ width: "100%", textAlign: "left" }}
+        >
+          <Coursecard course={course} />
+        </button>
+      ))}
     </div>
   );
 }

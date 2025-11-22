@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import Bottomnav from "./components/Bottomnav";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CourseDetail from "./pages/CourseDetail";
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/courses/:courseId" element={<CourseDetail />} />
       </Routes>
     </BrowserRouter>
   );
