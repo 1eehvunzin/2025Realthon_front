@@ -1,9 +1,9 @@
 import {useState, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import "../style.css";
+// import {useNavigate} from "react-router-dom";
+import "../style-hoseong.css";
 
 export default function Profile() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
     const [preferences, setPreferences] = useState("");
     const [loading, setLoading] = useState(false);
@@ -59,104 +59,53 @@ export default function Profile() {
     };
 
     return (<div className="page">
-        <div
-            style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                marginBottom: "24px",
-            }}
-        >
-            <h2>프로필 관리</h2>
-            <button
-                onClick={() => navigate("/")}
-                style={{
-                    padding: "8px 16px",
-                    borderRadius: "8px",
-                    border: "1px solid #007aff",
-                    color: "#007aff",
-                    backgroundColor: "white",
-                }}
-            >
-                홈으로
-            </button>
-        </div>
+        <div className="container">
+            {/* Header Section */}
+            <header className="header">
+                <h2>프로필 관리</h2>
+                {/*<button className="btn btn-outline" onClick={() => navigate("/")}>*/}
+                {/*    홈으로*/}
+                {/*</button>*/}
+            </header>
 
-        {error && (<div
-            style={{
-                backgroundColor: "#ffebee",
-                color: "#c62828",
-                padding: "12px",
-                borderRadius: "8px",
-                marginBottom: "16px",
-            }}
-        >
-            {error}
-        </div>)}
+            {/* Error Message */}
+            {error && <div className="error-box">{error}</div>}
 
-        {loading && !profile ? (<div style={{textAlign: "center", color: "#7D8A95", padding: "24px"}}>
-                프로필을 불러오는 중...
-            </div>) : profile ? (<>
-                <div
-                    style={{
-                        backgroundColor: "#FAFAFC",
-                        border: "1px solid #F4F4F6",
-                        padding: "16px",
-                        borderRadius: "16px",
-                        marginBottom: "24px",
-                    }}
-                >
-                    <h4 style={{color: "#7D8A95", marginBottom: "8px"}}>
-                        현재 프로필 (ID: {profile.id})
-                    </h4>
-                    <p style={{margin: 0, fontSize: "16px"}}>{profile.preferences}</p>
+            {/* Content Section */}
+            {loading && !profile ? (<div className="loading-text">프로필을 불러오는 중...</div>) : profile ? (<>
+                {/* Current Profile Card */}
+                <div className="card">
+                    <div>
+                        <h4 className="label-text">현재 프로필 (ID: {profile.id})</h4>
+                        <p className="content-text">{profile.preferences}</p>
+                    </div>
                 </div>
 
-                <form onSubmit={handleUpdateProfile}>
-                    <h3 style={{marginBottom: "12px"}}>프로필 수정</h3>
-                    <div style={{display: "flex", flexDirection: "column", gap: "12px"}}>
-                        <textarea
-                            value={preferences}
-                            onChange={(e) => setPreferences(e.target.value)}
-                            placeholder="선호도를 입력하세요"
-                            disabled={loading}
-                            rows={4}
-                            style={{
-                                padding: "12px",
-                                borderRadius: "8px",
-                                border: "1px solid #ddd",
-                                outline: "none",
-                                resize: "vertical",
-                                fontFamily: "inherit",
-                            }}
-                        />
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            style={{
-                                padding: "12px 24px",
-                                borderRadius: "8px",
-                                border: "none",
-                                backgroundColor: loading ? "#ccc" : "#007aff",
-                                color: "white",
-                                cursor: loading ? "not-allowed" : "pointer",
-                            }}
-                        >
-                            {loading ? "업데이트 중..." : "프로필 업데이트"}
-                        </button>
+                {/* Edit Form Card */}
+                <form onSubmit={handleUpdateProfile} className="card">
+                    <h3>프로필 수정</h3>
+                    <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
+                <textarea
+                    className="textarea-field"
+                    value={preferences}
+                    onChange={(e) => setPreferences(e.target.value)}
+                    placeholder="선호도를 자유롭게 입력하세요 (예: 수학 문제를 좋아함)"
+                    disabled={loading}
+                    rows={5}
+                />
+                        <div style={{display: "flex", justifyContent: "flex-end"}}>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="btn btn-primary"
+                            >
+                                {loading ? "저장 중..." : "변경사항 저장"}
+                            </button>
+                        </div>
                     </div>
                 </form>
-            </>) : (<div
-                style={{
-                    textAlign: "center",
-                    color: "#7D8A95",
-                    padding: "24px",
-                    backgroundColor: "#FAFAFC",
-                    borderRadius: "16px",
-                }}
-            >
-                프로필을 불러올 수 없습니다.
-            </div>)}
+            </>) : (<div className="empty-text">프로필을 불러올 수 없습니다.</div>)}
+        </div>
     </div>);
 }
+
