@@ -22,7 +22,7 @@ export default function Taskcard({ title, type, rate }) {
         <div
           style={{ display: "flex", flexDirection: "row", marginTop: "16px" }}
         >
-          <h4>중요도 ⭐ {rate}</h4>
+          <h4>{rate}</h4>
         </div>
       </div>
     </div>

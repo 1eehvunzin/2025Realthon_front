@@ -6,6 +6,7 @@ import Histogram from "../components/histogram";
 export default function CourseDetail() {
   const { courseId } = useParams();
   const [course, setcourse] = useState(null);
+  const [items, setitems] = useState([]);
   const [grade, setGrade] = useState("A");
 
   useEffect(() => {
@@ -24,6 +25,28 @@ export default function CourseDetail() {
 
     fetchData();
   }, [courseId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://134.185.97.247:8000/evaluation-items");
+        const json = await res.json();
+        setitems(json);
+      } catch (err) {
+        console.error("fetch error:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const upcomingItems = items
+    .filter((item) => String(item.course_id) === String(courseId))
+    .filter((item) => !item.is_submitted);
+
+  const pastItems = items
+    .filter((item) => String(item.course_id) === String(courseId))
+    .filter((item) => item.is_submitted);
 
   return (
     <div className="page">
@@ -75,11 +98,55 @@ export default function CourseDetail() {
         예시 텍스트 입니다
       </div>
       <h2 style={{ margin: "24px 0 12px 0" }}>예정된 과제 • 시험</h2>
-      <Taskcard title="과제2: 미국헌법수정" type="과제" rate="3.5" />
-      <Taskcard title="중간고사" type="시험" rate="5.0" />
+      {upcomingItems.map((item) => (
+        <Taskcard
+          key={item.id}
+          title={item.name}
+          type={item.name.includes("과제") ? "과제" : "시험"}
+          rate="중요도 ⭐ : 5.0"
+        />
+      ))}
+      <button style={{ width: "100%" }}>
+        <div
+          style={{
+            border: "1px solid #007aff",
+            padding: "16px",
+            display: "flex",
+            borderRadius: "16px",
+            color: "#007aff",
+            width: "90%",
+            margin: "12px 0px",
+            justifyContent: "center",
+          }}
+        >
+          <h4>예정된 과제 • 시험 추가하기</h4>
+        </div>
+      </button>
       <h2 style={{ margin: "24px 0 12px 0" }}>지나간 과제 • 시험</h2>
-      <Taskcard title="과제1: 레포트 작성" type="과제" rate="3.5" />
-      <Taskcard title="중간고사" type="시험" rate="5.0" />
+      {pastItems.map((item) => (
+        <Taskcard
+          key={item.id}
+          title={item.name}
+          type={item.name.includes("과제") ? "과제" : "시험"}
+          rate={`나의 점수: ${item.my_score}`}
+        />
+      ))}
+      <button style={{ width: "100%" }}>
+        <div
+          style={{
+            border: "1px solid #007aff",
+            padding: "16px",
+            display: "flex",
+            borderRadius: "16px",
+            color: "#007aff",
+            width: "90%",
+            margin: "12px 0px",
+            justifyContent: "center",
+          }}
+        >
+          <h4>지나간 과제 • 시험 추가하기</h4>
+        </div>
+      </button>
     </div>
   );
 }
