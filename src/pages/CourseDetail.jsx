@@ -148,6 +148,15 @@ export default function CourseDetail() {
           : "강의 정보를 불러오는 중..."}
       </h2>
       <Histogram courseId={courseId} />
+      <h3
+        style={{
+          margin: "20px 0 0 0",
+          textAlign: "center",
+        }}
+      >
+        과제 난이도: {courseAdvice.assignment_difficulty} • 시험 난이도:{" "}
+        {courseAdvice.exam_difficulty}
+      </h3>
       <div
         style={{
           backgroundColor: "#FAFAFC",
@@ -167,22 +176,11 @@ export default function CourseDetail() {
       >
         {courseAdvice ? (
           <>
-            <h4 style={{ margin: 0 }}>요약</h4>
-            <p style={{ margin: 0 }}>{courseAdvice.summary}</p>
+            <h2 style={{ margin: 0 }}>요약</h2>
+            <h3 style={{ margin: 0 }}>{courseAdvice.summary}</h3>
 
-            <h4 style={{ margin: "8px 0 0 0" }}>세부 조언</h4>
-            <p style={{ margin: 0 }}>{courseAdvice.advice}</p>
-
-            <p
-              style={{
-                margin: "8px 0 0 0",
-                fontSize: "12px",
-                color: "#7D8A95",
-              }}
-            >
-              과제 난이도: {courseAdvice.assignment_difficulty} • 시험 난이도:{" "}
-              {courseAdvice.exam_difficulty}
-            </p>
+            <h2 style={{ margin: "8px 0 0 0" }}>세부 조언</h2>
+            <h3 style={{ margin: 0 }}>{courseAdvice.advice}</h3>
           </>
         ) : (
           <span>이 과목에 대한 조언을 불러오는 중...</span>
