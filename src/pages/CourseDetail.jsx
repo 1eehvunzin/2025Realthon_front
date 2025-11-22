@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Taskcard from "../components/Taskcard";
-import Histogram from "../components/Histogram1";
+import Histogram from "../components/Histogram";
 
 export default function CourseDetail() {
   const { courseId } = useParams();
@@ -119,7 +119,7 @@ export default function CourseDetail() {
           ? `${course.name}, 선택과 집중 리포트`
           : "강의 정보를 불러오는 중..."}
       </h2>
-      <Histogram />
+      <Histogram courseId={courseId} />
       <div
         style={{
           backgroundColor: "#FAFAFC",
